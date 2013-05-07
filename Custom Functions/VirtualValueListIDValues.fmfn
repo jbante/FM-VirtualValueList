@@ -1,0 +1,36 @@
+/**
+ *******************************************************************************
+ * VirtualValueListIDValues ( valueListID )
+ *
+ * RETURNS:
+ *		A return-delimited list of the hidden ID values for the valueListID.
+ *
+ * PARAMETERS:
+ *		valueListID: (optional) The unique (numeric) ID of the dynamic value
+ *		list to address. It is the responsibility of the solution developer to
+ *		devise and adhere to a consistent ID scheme. Defaults to 1.
+ *
+ * DEPENDENCIES: none
+ *
+ * VARIABLES:
+ *		$$~VirtualValueList.ID_LIST[n]
+ *
+ * NOTES:
+ *		This module is based on techniques demonstrated by John Ahn,
+ *		Andries Heylen, and Marcelo Piñeyro.
+ *
+ * HISTORY:
+ *		CREATED on 2013-05-06 by Jeremy Bante <http://scr.im/jbante>.
+ *
+ * REFERENCES:
+ *		http://www.filemakerhacks.com/?p=5357
+ *		http://www.filemakerhacks.com/?p=5412
+ *		http://www.soliantconsulting.com/blog/2012/09/extending-filemaker-pro’s-value-list-sort-capabilities-using-char-function
+ *******************************************************************************
+ */
+
+Let ( [
+	~valueListID = If ( IsEmpty ( valueListID ) ; 1 ; /* Else */ valueListID )
+] ;
+	$$~VirtualValueList.ID_LIST[~valueListID]
+)

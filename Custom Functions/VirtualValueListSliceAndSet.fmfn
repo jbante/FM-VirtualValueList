@@ -1,0 +1,114 @@
+/**
+ *******************************************************************************
+ * VirtualValueListSliceAndSet ( valueList ; delimiter ; valueListID )
+ *
+ * PURPOSE:
+ *		Separates delimited columns in a return-delimited list, such as a
+ *		multi-column result from the ExecuteSQL function, and sets a virtual
+ *		value list with the sliced columns. This function works in connection
+ *		with a value list defined to be based on an unstored calculation that
+ *		references the global variables set by this function.
+ *
+ * RETURNS: "" (null)
+ *
+ * PARAMETERS:
+ *		valueList: A return-delimited list of values to use with a virtual value
+ *		list. The first column in each value is used for the display value, and
+ *		the second column in each value is used for the hidden ID value, if any.
+ *		delimiter: The character used in valueList to delimit one column from
+ *		the next within each return-delimited value.
+ *		valueListID: (optional) The unique (numeric) ID of the dynamic value
+ *		list to address. It is the responsibility of the solution developer to
+ *		devise and adhere to a consistent ID scheme. Defaults to 1.
+ *
+ * DEPENDENCIES: none
+ *
+ * VARIABLES:
+ *		$$~VirtualValueList.DISPLAY_LIST[n]
+ *		$$~VirtualValueList.ID_LIST[n]
+ *
+ * NOTES:
+ *		This module is based on techniques demonstrated by John Ahn,
+ *		Andries Heylen, and Marcelo Piñeyro.
+ *
+ * HISTORY:
+ *		CREATED on 2013-05-06 by Jeremy Bante <http://scr.im/jbante>.
+ *
+ * REFERENCES:
+ *		http://www.filemakerhacks.com/?p=5357
+ *		http://www.filemakerhacks.com/?p=5412
+ *		http://www.soliantconsulting.com/blog/2012/09/extending-filemaker-pro’s-value-list-sort-capabilities-using-char-function
+ *******************************************************************************
+ */
+
+Case (
+	/* Step 0, set-up */
+	not $~vvl.step ;
+		Let ( [
+			~valueListID =
+				If ( IsEmpty ( valueListID ) ; 1 ; /* Else */ valueListID ) ;
+			$$~VirtualValueList.DISPLAY_LIST[~valueListID] = "" ;
+			$~vvl.valueCount = ValueCount ( valueList ) ;
+			$~vvl.nonBreakingSpace = Char ( 65279 ) ;
+			$~vvl.step = 1
+		] ;
+			VirtualValueListSliceAndSet ( valueList ; delimiter ; ~valueListID )
+		) ;
+
+	/* Step 1, append non-breaking spaces to line starts to coerce sort order */
+	$~vvl.step = 1 ;
+		Let ( [
+			$~vvl.i = $~vvl.i + 1 ;
+			~value =
+				Substitute (
+					GetValue ( valueList ; $~vvl.i ) ;
+					delimiter ;
+					¶
+				) ;
+
+			$$~VirtualValueList.DISPLAY_LIST[valueListID] =
+				If ( $~vvl.i > 1 ;
+					$$~VirtualValueList.DISPLAY_LIST[valueListID] & ¶
+				)
+				& $~vvl.prefix
+				& GetValue ( ~value ; 1 ) ;
+
+			~idValue = GetValue ( ~value ; 2 ) ;
+			$~vvl.idColumnIsNotEmpty =
+				$~vvl.idColumnIsNotEmpty
+				or not IsEmpty ( ~idValue ) ;
+			$$~VirtualValueList.ID_LIST[valueListID] =
+				If ( $~vvl.i > 1 ;
+					$$~VirtualValueList.ID_LIST[valueListID] & ¶
+				)
+				& ~idValue ;
+
+			$~vvl.prefix = $~vvl.prefix & $~vvl.nonBreakingSpace ;
+			$~vvl.step =
+				If ( $~vvl.i < $~vvl.valueCount ;
+					$~vvl.step ;
+					/* Else */ $~vvl.step + 1
+				)
+		] ;
+			VirtualValueListSliceAndSet ( valueList ; delimiter ; valueListID )
+		) ;
+
+	/* Step 2, clean-up and return result */
+	$~vvl.step = 2 ;
+		Let ( [
+			$$~VirtualValueList.ID_LIST[valueListID] =
+				If ( $~vvl.idColumnIsNotEmpty ;
+					$$~VirtualValueList.ID_LIST[valueListID]
+				) ;
+
+			// purge variables
+			$~vvl.i = "" ;
+			$~vvl.idColumnIsNotEmpty = "" ;
+			$~vvl.nonBreakingSpace = "" ;
+			$~vvl.prefix = "" ;
+			$~vvl.step = "" ;
+			$~vvl.valueCount = ""
+		] ;
+			""
+		)
+)
