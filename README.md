@@ -22,6 +22,8 @@ You must use a copy of FileMaker Pro Advanced to install the custom functions fo
 6. Add the "Enforce Virtual Value List Record Requirement" script as a sub-script of your file's startup (OnFirstWindowOpen) script.
 7. For each value list you anticipate using simultaneously in your solution, mimick one of the value lists from this file. Choose which value list to mimick based on whether you need that value list to set a hidden ID value or not.
 
+You will need to create new fields in the VirtualValueList table for each virtual value list you create.
+
 For each value list you create, FileMaker will warn you that value lists on unindexed fields don't work. Don't worry; these value lists work if they are set-up correctly.
 
 ## Usage
@@ -40,9 +42,9 @@ To use Virtual Value List with radio button and checkbox sets:
 2. Use an OnLayoutEnter or OnModeEnter script trigger to set each virtual value list via the VirtualValueListSet custom function. If you're using ExecuteSQL to get the values to set, the VirtualValueListSliceAndSet function may be worth considering instead of the VirtualValueListSet function.
 3. As a best practice, consider using the VirtualValueListClear function with an OnLayoutExit script trigger to clear a virtual value list when leaving a layout using the value list.
 
-## Configuration Options
-
 You can set up as many Virtual Value Lists in your solution files as you want. Use the valueListID parameter of the custom functions to address different value lists. The numbering scheme to use with valueListIDs is up to you, and you can make it whatever you want. This does not have to be FileMaker's internal ID for the value list (but that's not a bad idea!).
+
+## Configuration Options
 
 For value lists with hidden ID values to work correctly, the VirtualValueList table must have at least as many records as the largest such value list. Edit the "Get Virtual Value List Settings" script to set the number of VirtualValueList records to use with your solution.
 
