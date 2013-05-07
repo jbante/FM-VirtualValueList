@@ -1,6 +1,6 @@
 /**
  *******************************************************************************
- * VirtualValueListSet ( displayList ; idList ; valueListID )
+ * VirtualValueListSet ( displayList ; idList ; virtualValueListID )
  *
  * PURPOSE:
  *		Sets a virtual value list with a specified series of return-delimited
@@ -15,9 +15,9 @@
  *		they are to be displayed. Clears the value list when left empty.
  *		idList: (optional) A return-delimited list of values to set from the
  *		value list, but not display, in matching order with displayList.
- *		valueListID: (optional) The unique (numeric) ID of the dynamic value
- *		list to address. It is the responsibility of the solution developer to
- *		devise and adhere to a consistent ID scheme. Defaults to 1.
+ *		virtualValueListID: (optional) The unique (numeric) ID of the dynamic
+ *		value list to address. It is the responsibility of the solution
+ *		developer to devise and adhere to a consistent ID scheme. Defaults to 1.
  *
  * DEPENDENCIES: none
  *
@@ -43,23 +43,26 @@ Case (
 	/* Step 0, set-up */
 	not $~vvl.step ;
 		Let ( [
-			~valueListID =
-				If ( IsEmpty ( valueListID ) ; 1 ; /* Else */ valueListID ) ;
-			$$~VirtualValueList.DISPLAY_LIST[~valueListID] = "" ;
+			~virtualValueListID =
+				If ( IsEmpty ( virtualValueListID ) ;
+					1 ;
+					/* Else */ virtualValueListID
+				) ;
+			$$~VirtualValueList.DISPLAY_LIST[~virtualValueListID] = "" ;
 			$~vvl.valueCount = ValueCount ( displayList ) ;
 			$~vvl.nonBreakingSpace = Char ( 65279 ) ;
 			$~vvl.step = 1
 		] ;
-			VirtualValueListSet ( displayList ; idList ; ~valueListID )
+			VirtualValueListSet ( displayList ; idList ; ~virtualValueListID )
 		) ;
 
 	/* Step 1, append non-breaking spaces to line starts to coerce sort order */
 	$~vvl.step = 1 ;
 		Let ( [
 			$~vvl.i = $~vvl.i + 1 ;
-			$$~VirtualValueList.DISPLAY_LIST[valueListID] =
+			$$~VirtualValueList.DISPLAY_LIST[virtualValueListID] =
 				If ( $~vvl.i > 1 ;
-					$$~VirtualValueList.DISPLAY_LIST[valueListID] & ¶
+					$$~VirtualValueList.DISPLAY_LIST[virtualValueListID] & ¶
 				)
 				& $~vvl.prefix
 				& GetValue ( displayList ; $~vvl.i ) ;
@@ -70,13 +73,13 @@ Case (
 					/* Else */ $~vvl.step + 1
 				)
 		] ;
-			VirtualValueListSet ( displayList ; idList ; valueListID )
+			VirtualValueListSet ( displayList ; idList ; virtualValueListID )
 		) ;
 
 	/* Step 2, clean-up and return result */
 	$~vvl.step = 2 ;
 		Let ( [
-			$$~VirtualValueList.ID_LIST[valueListID] =
+			$$~VirtualValueList.ID_LIST[virtualValueListID] =
 				If ( not IsEmpty ( idList ) and $~vvl.valueCount > 0 ; idList ) ;
 
 			// purge variables

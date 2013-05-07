@@ -1,6 +1,6 @@
 /**
  *******************************************************************************
- * VirtualValueListClear ( valueListID )
+ * VirtualValueListClear ( virtualValueListID )
  *
  * PURPOSE:
  *		Clears a virtual value list.
@@ -8,9 +8,9 @@
  * RETURNS: "" (null)
  *
  * PARAMETERS:
- *		valueListID: (optional) The unique (numeric) ID of the dynamic value
- *		list to address. It is the responsibility of the solution developer to
- *		devise and adhere to a consistent ID scheme. Defaults to 1.
+ *		virtualValueListID: (optional) The unique (numeric) ID of the dynamic
+ *		value list to address. It is the responsibility of the solution
+ *		developer to devise and adhere to a consistent ID scheme. Defaults to 1.
  *
  * DEPENDENCIES: none
  *
@@ -33,9 +33,13 @@
  */
 
 Let ( [
-	~valueListID = If ( IsEmpty ( valueListID ) ; 1 ; /* Else */ valueListID ) ;
-	$$~VirtualValueList.DISPLAY_LIST[~valueListID] = "" ;
-	$$~VirtualValueList.ID_LIST[~valueListID] = ""
+	~virtualValueListID =
+		If ( IsEmpty ( virtualValueListID ) ;
+			1 ;
+			/* Else */ virtualValueListID
+		) ;
+	$$~VirtualValueList.DISPLAY_LIST[~virtualValueListID] = "" ;
+	$$~VirtualValueList.ID_LIST[~virtualValueListID] = ""
 ] ;
 	""
 )

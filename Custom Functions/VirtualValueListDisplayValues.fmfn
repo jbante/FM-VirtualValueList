@@ -1,14 +1,15 @@
 /**
  *******************************************************************************
- * VirtualValueListDisplayValues ( valueListID )
+ * VirtualValueListDisplayValues ( virtualValueListID )
  *
  * RETURNS:
- *		A return-delimited list of the display values for the valueListID.
+ *		A return-delimited list of the display values for the
+ *		virtualValueListID.
  *
  * PARAMETERS:
- *		valueListID: (optional) The unique (numeric) ID of the dynamic value
- *		list to address. It is the responsibility of the solution developer to
- *		devise and adhere to a consistent ID scheme. Defaults to 1.
+ *		virtualValueListID: (optional) The unique (numeric) ID of the dynamic
+ *		value list to address. It is the responsibility of the solution
+ *		developer to devise and adhere to a consistent ID scheme. Defaults to 1.
  *
  * DEPENDENCIES: none
  *
@@ -30,7 +31,11 @@
  */
 
 Let ( [
-	~valueListID = If ( IsEmpty ( valueListID ) ; 1 ; /* Else */ valueListID )
+	~virtualValueListID =
+		If ( IsEmpty ( virtualValueListID ) ;
+			1 ;
+			/* Else */ virtualValueListID
+		)
 ] ;
-	$$~VirtualValueList.DISPLAY_LIST[~valueListID]
+	$$~VirtualValueList.DISPLAY_LIST[~virtualValueListID]
 )

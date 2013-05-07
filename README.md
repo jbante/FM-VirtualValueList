@@ -42,7 +42,7 @@ To use Virtual Value List with radio button and checkbox sets:
 2. Use an OnLayoutEnter or OnModeEnter script trigger to set each virtual value list via the VirtualValueListSet custom function. If you're using ExecuteSQL to get the values to set, the VirtualValueListSliceAndSet function may be worth considering instead of the VirtualValueListSet function.
 3. As a best practice, consider using the VirtualValueListClear function with an OnLayoutExit script trigger to clear a virtual value list when leaving a layout using the value list.
 
-You can set up as many Virtual Value Lists in your solution files as you want. Use the valueListID parameter of the custom functions to address different value lists. The numbering scheme to use with valueListIDs is up to you, and you can make it whatever you want. This does not have to be FileMaker's internal ID for the value list (but that's not a bad idea!).
+You can set up as many Virtual Value Lists in your solution files as you want. Use the virtualValueListID parameter of the custom functions to address different value lists. The numbering scheme to use with virtualValueListIDs is up to you, and you can make it whatever you want. This does not have to be FileMaker's internal ID for the value list (but that's not a bad idea!).
 
 ## Configuration Options
 

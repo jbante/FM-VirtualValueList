@@ -1,6 +1,6 @@
 /**
  *******************************************************************************
- * VirtualValueListSliceAndSet ( valueList ; delimiter ; valueListID )
+ * VirtualValueListSliceAndSet ( valueList ; delimiter ; virtualValueListID )
  *
  * PURPOSE:
  *		Separates delimited columns in a return-delimited list, such as a
@@ -17,9 +17,9 @@
  *		the second column in each value is used for the hidden ID value, if any.
  *		delimiter: The character used in valueList to delimit one column from
  *		the next within each return-delimited value.
- *		valueListID: (optional) The unique (numeric) ID of the dynamic value
- *		list to address. It is the responsibility of the solution developer to
- *		devise and adhere to a consistent ID scheme. Defaults to 1.
+ *		virtualValueListID: (optional) The unique (numeric) ID of the dynamic
+ *		value list to address. It is the responsibility of the solution
+ *		developer to devise and adhere to a consistent ID scheme. Defaults to 1.
  *
  * DEPENDENCIES: none
  *
@@ -45,14 +45,21 @@ Case (
 	/* Step 0, set-up */
 	not $~vvl.step ;
 		Let ( [
-			~valueListID =
-				If ( IsEmpty ( valueListID ) ; 1 ; /* Else */ valueListID ) ;
-			$$~VirtualValueList.DISPLAY_LIST[~valueListID] = "" ;
+			~virtualValueListID =
+				If ( IsEmpty ( virtualValueListID ) ;
+					1 ;
+					/* Else */ virtualValueListID
+				) ;
+			$$~VirtualValueList.DISPLAY_LIST[~virtualValueListID] = "" ;
 			$~vvl.valueCount = ValueCount ( valueList ) ;
 			$~vvl.nonBreakingSpace = Char ( 65279 ) ;
 			$~vvl.step = 1
 		] ;
-			VirtualValueListSliceAndSet ( valueList ; delimiter ; ~valueListID )
+			VirtualValueListSliceAndSet (
+				valueList ;
+				delimiter ;
+				~virtualValueListID
+			)
 		) ;
 
 	/* Step 1, append non-breaking spaces to line starts to coerce sort order */
@@ -66,9 +73,9 @@ Case (
 					¶
 				) ;
 
-			$$~VirtualValueList.DISPLAY_LIST[valueListID] =
+			$$~VirtualValueList.DISPLAY_LIST[virtualValueListID] =
 				If ( $~vvl.i > 1 ;
-					$$~VirtualValueList.DISPLAY_LIST[valueListID] & ¶
+					$$~VirtualValueList.DISPLAY_LIST[virtualValueListID] & ¶
 				)
 				& $~vvl.prefix
 				& GetValue ( ~value ; 1 ) ;
@@ -77,9 +84,9 @@ Case (
 			$~vvl.idColumnIsNotEmpty =
 				$~vvl.idColumnIsNotEmpty
 				or not IsEmpty ( ~idValue ) ;
-			$$~VirtualValueList.ID_LIST[valueListID] =
+			$$~VirtualValueList.ID_LIST[virtualValueListID] =
 				If ( $~vvl.i > 1 ;
-					$$~VirtualValueList.ID_LIST[valueListID] & ¶
+					$$~VirtualValueList.ID_LIST[virtualValueListID] & ¶
 				)
 				& ~idValue ;
 
@@ -90,15 +97,19 @@ Case (
 					/* Else */ $~vvl.step + 1
 				)
 		] ;
-			VirtualValueListSliceAndSet ( valueList ; delimiter ; valueListID )
+			VirtualValueListSliceAndSet (
+				valueList ;
+				delimiter ;
+				virtualValueListID
+			)
 		) ;
 
 	/* Step 2, clean-up and return result */
 	$~vvl.step = 2 ;
 		Let ( [
-			$$~VirtualValueList.ID_LIST[valueListID] =
+			$$~VirtualValueList.ID_LIST[virtualValueListID] =
 				If ( $~vvl.idColumnIsNotEmpty ;
-					$$~VirtualValueList.ID_LIST[valueListID]
+					$$~VirtualValueList.ID_LIST[virtualValueListID]
 				) ;
 
 			// purge variables
