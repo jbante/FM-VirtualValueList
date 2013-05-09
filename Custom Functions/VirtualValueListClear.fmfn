@@ -5,7 +5,7 @@
  * PURPOSE:
  *		Clears a virtual value list.
  *
- * RETURNS: "" (null)
+ * RETURNS: True (1)
  *
  * PARAMETERS:
  *		virtualValueListID: (optional) The unique (numeric) ID of the dynamic
@@ -41,5 +41,5 @@ Let ( [
 	$$~VirtualValueList.DISPLAY_LIST[~virtualValueListID] = "" ;
 	$$~VirtualValueList.ID_LIST[~virtualValueListID] = ""
 ] ;
-	""
+	True
 )

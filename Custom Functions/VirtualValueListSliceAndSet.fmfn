@@ -9,7 +9,7 @@
  *		with a value list defined to be based on an unstored calculation that
  *		references the global variables set by this function.
  *
- * RETURNS: "" (null)
+ * RETURNS: True (1)
  *
  * PARAMETERS:
  *		valueList: A return-delimited list of values to use with a virtual value
@@ -120,6 +120,6 @@ Case (
 			$~vvl.step = "" ;
 			$~vvl.valueCount = ""
 		] ;
-			""
+			True
 		)
 )

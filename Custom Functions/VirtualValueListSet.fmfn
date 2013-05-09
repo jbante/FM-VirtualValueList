@@ -8,7 +8,7 @@
  *		be based on an unstored calculation that references the global variables
  *		set by this function.
  *
- * RETURNS: "" (null)
+ * RETURNS: True (1)
  *
  * PARAMETERS:
  *		displayList: A return-delimited list of values to display, in the order
@@ -89,6 +89,6 @@ Case (
 			$~vvl.step = "" ;
 			$~vvl.valueCount = ""
 		] ;
-			""
+			True
 		)
 )

@@ -1,6 +1,6 @@
 # Virtual Value List
 
-Virtual Value List lets developers build value lists based on the contents of global variables. By basing value lists on global variables, developers can be spared most of the schema overhead associated with other techniques for value lists with programmatically specified values.
+Virtual Value List helps developers build transient value lists based on the contents of global variables. By basing value lists on global variables, developers can be spared most of the schema overhead associated with other techniques for value lists with programmatically specified values.
 
 ## Attributions
 
@@ -32,9 +32,9 @@ See the demos in this repository for examples of how to set-up virtual value lis
 
 To use Virtual Value List with pop-up menus and drop-down lists:
 1. Select one of the virtual value lists to associate with the pop-up menu or drop-down list.
-2. Add to the field an OnObjectEnter script trigger calling the "Exit Script with True Result".
+2. Add to the field an OnObjectEnter script trigger calling the "Exit Script OnTrigger with Parameter as Result".
 3. In the script parameter to the OnObjectEnter script trigger, use the VirtualValueListSet custom function to set the virtual value list values to use with the field. If you're using ExecuteSQL to get the values to set, the VirtualValueListSliceAndSet function may be worth considering instead of the VirtualValueListSet function.
-4. As a best practice, add to the field an OnObjectExit script trigger calling the "Exit Script with True Result" script.
+4. As a best practice, add to the field an OnObjectExit script trigger calling the "Exit Script OnTrigger with Parameter as Result" script.
 5. In the script parameter to the OnObjectExit script trigger, use the VirtualValueListClear custom function to clear the virtual value list. This cleans-up the global variables used to drive the virtual value list, which is no longer needed when the field is exited.
 
 To use Virtual Value List with radio button and checkbox sets:
