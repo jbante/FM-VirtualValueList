@@ -9,7 +9,7 @@ This module is based on value list demos by [John Ahn][1] and [Andries Heylen][2
 [1]: http://www.filemakerhacks.com/?p=5357 "FM 12 ExecuteSQL 'Unconference' Session"
 [2]: http://www.filemakerhacks.com/?p=5412 "Magic Value Lists"
 [3]: http://www.soliantconsulting.com/blog/2012/09/extending-filemaker-pro’s-value-list-sort-capabilities-using-char-function "Extending FileMaker Pro's value list sort capabilities using the Char() function"
-[4]: https://twitter.com/jsfmp "Joel Shapiro (jsfmp) on Twitter"
+[4]: http://jsfmp.com "Joel Shapiro"
 
 ## Installation
 
