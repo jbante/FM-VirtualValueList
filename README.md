@@ -4,11 +4,12 @@ Virtual Value List helps developers build transient value lists based on the con
 
 ## Attributions
 
-This module is based on value list demos by [John Ahn][1] and [Andries Heylen][2], and a technique by [Marcelo Piñeyro][3] for coercing value list ordering.
+This module is based on value list demos by [John Ahn][1] and [Andries Heylen][2], and a technique by [Marcelo Piñeyro][3] for coercing value list ordering. [Joel Shapiro][4] discovered and reported significant bugs in earlier versions of this module.
 
 [1]: http://www.filemakerhacks.com/?p=5357 "FM 12 ExecuteSQL 'Unconference' Session"
 [2]: http://www.filemakerhacks.com/?p=5412 "Magic Value Lists"
 [3]: http://www.soliantconsulting.com/blog/2012/09/extending-filemaker-pro’s-value-list-sort-capabilities-using-char-function "Extending FileMaker Pro's value list sort capabilities using the Char() function"
+[4]: https://twitter.com/jsfmp "Joel Shapiro (jsfmp) on Twitter"
 
 ## Installation
 
@@ -43,6 +44,11 @@ To use Virtual Value List with radio button and checkbox sets:
 3. As a best practice, consider using the VirtualValueListClear function with an OnLayoutExit script trigger to clear a virtual value list when leaving a layout using the value list.
 
 You can set up as many Virtual Value Lists in your solution files as you want. Use the virtualValueListID parameter of the custom functions to address different value lists. The numbering scheme to use with virtualValueListIDs is up to you, and you can make it whatever you want. This does not have to be FileMaker's internal ID for the value list (but that's not a bad idea!).
+
+Virtual Value Lists prepend a series of non-breaking spaces (Char ( 65279 )) to force FileMaker to respect your sort order for the values, and these characters will be included in the value set to a field when users make a selection, which can lead to some unexpected behaviors. Consider using an OnObjectModify script trigger or an Auto-Enter calculation to remove these characters.
+
+	// strip out whitespace used by Virtual Value List
+	Substitute ( Self ; /* non-breaking space */ Char ( 65279 ) ; "" )
 
 ## Configuration Options
 
