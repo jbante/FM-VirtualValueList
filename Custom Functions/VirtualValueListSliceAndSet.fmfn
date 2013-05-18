@@ -32,6 +32,10 @@
  *		Andries Heylen, and Marcelo Piñeyro.
  *
  * HISTORY:
+ *		MODIFIED on 2013-05-18 by Jeremy Bante <http://scr.im/jbante> to use the
+ *		displayList without prepended non-breaking spaces as the idList if the
+ *		idList parameter is empty to deal with problems where non-breaking
+ *		spaces are preserved in selected values.
  *		CREATED on 2013-05-06 by Jeremy Bante <http://scr.im/jbante>.
  *
  * REFERENCES:
@@ -108,8 +112,15 @@ Case (
 	$~vvl.step = 2 ;
 		Let ( [
 			$$~VirtualValueList.ID_LIST[virtualValueListID] =
-				If ( $~vvl.idColumnIsNotEmpty ;
-					$$~VirtualValueList.ID_LIST[virtualValueListID]
+				Case (
+					$~vvl.idColumnIsNotEmpty ;
+						$$~VirtualValueList.ID_LIST[virtualValueListID] ;
+					$~vvl.valueCount > 0 ;
+						Substitute (
+							$$~VirtualValueList.DISPLAY_LIST[virtualValueListID] ;
+							$~vvl.nonBreakingSpace ;
+							""
+						)
 				) ;
 
 			// purge variables

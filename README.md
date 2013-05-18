@@ -45,11 +45,6 @@ To use Virtual Value List with radio button and checkbox sets:
 
 You can set up as many Virtual Value Lists in your solution files as you want. Use the virtualValueListID parameter of the custom functions to address different value lists. The numbering scheme to use with virtualValueListIDs is up to you, and you can make it whatever you want. This does not have to be FileMaker's internal ID for the value list (but that's not a bad idea!).
 
-Virtual Value Lists prepend a series of non-breaking spaces (Char ( 65279 )) to force FileMaker to respect your sort order for the values, and these characters will be included in the value set to a field when users make a selection, which can lead to some unexpected behaviors. Consider using an OnObjectModify script trigger or an Auto-Enter calculation to remove these characters.
-
-	// strip out whitespace used by Virtual Value List
-	Substitute ( Self ; /* non-breaking space */ Char ( 65279 ) ; "" )
-
 ## Configuration Options
 
 For value lists with hidden ID values to work correctly, the VirtualValueList table must have at least as many records as the largest such value list. Edit the "Get Virtual Value List Settings" script to set the number of VirtualValueList records to use with your solution.
