@@ -32,6 +32,7 @@ For each value list you create, FileMaker will warn you that value lists on unin
 See the demos in this repository for examples of how to set-up virtual value lists in your solutions.
 
 To use Virtual Value List with pop-up menus and drop-down lists:
+
 1. Select one of the virtual value lists to associate with the pop-up menu or drop-down list.
 2. Add to the field an OnObjectEnter script trigger calling the "Exit Script OnTrigger with Parameter as Result".
 3. In the script parameter to the OnObjectEnter script trigger, use the VirtualValueListSet custom function to set the virtual value list values to use with the field. If you're using ExecuteSQL to get the values to set, the VirtualValueListSliceAndSet function may be worth considering instead of the VirtualValueListSet function.
@@ -39,6 +40,7 @@ To use Virtual Value List with pop-up menus and drop-down lists:
 5. In the script parameter to the OnObjectExit script trigger, use the VirtualValueListClear custom function to clear the virtual value list. This cleans-up the global variables used to drive the virtual value list, which is no longer needed when the field is exited.
 
 To use Virtual Value List with radio button and checkbox sets:
+
 1. Select one of the virtual value lists to associate with each radio button or checkbox set.
 2. Use an OnLayoutEnter or OnModeEnter script trigger to set each virtual value list via the VirtualValueListSet custom function. If you're using ExecuteSQL to get the values to set, the VirtualValueListSliceAndSet function may be worth considering instead of the VirtualValueListSet function.
 3. As a best practice, consider using the VirtualValueListClear function with an OnLayoutExit script trigger to clear a virtual value list when leaving a layout using the value list.
